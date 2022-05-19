@@ -1,12 +1,8 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import os
-import yaml
-import math
 import random
 
-from pyTorchChamferDistance.chamfer_distance import ChamferDistance
+from pcf.pyTorchChamferDistance.chamfer_distance import ChamferDistance
 from pcf.utils.projection import projection
 
 

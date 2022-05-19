@@ -7,7 +7,8 @@ import torch
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from pytorch_lightning import LightningDataModule
-
+import sys
+sys.path.insert(0, "/home/mertcokelek/Desktop/Github/point-cloud-prediction")
 from pcf.utils.projection import projection
 from pcf.utils.preprocess_data import prepare_data, compute_mean_and_std
 from pcf.utils.utils import load_files
@@ -193,9 +194,9 @@ class KittiOdometryRaw(Dataset):
 
         from_idx = scan_idx - self.n_past_steps + 1
         to_idx = scan_idx
-        past_filenames_range = self.filenames_range[seq][from_idx : to_idx + 1]
-        past_filenames_xyz = self.filenames_xyz[seq][from_idx : to_idx + 1]
-        past_filenames_intensity = self.filenames_intensity[seq][from_idx : to_idx + 1]
+        past_filenames_range = self.filenames_range[seq][from_idx: to_idx + 1]
+        past_filenames_xyz = self.filenames_xyz[seq][from_idx: to_idx + 1]
+        past_filenames_intensity = self.filenames_intensity[seq][from_idx: to_idx + 1]
 
         for t in range(self.n_past_steps):
             past_data[0, t, :, :] = self.load_range(past_filenames_range[t])
@@ -209,9 +210,9 @@ class KittiOdometryRaw(Dataset):
 
         from_idx = scan_idx + 1
         to_idx = scan_idx + self.n_future_steps
-        fut_filenames_range = self.filenames_range[seq][from_idx : to_idx + 1]
-        fut_filenames_xyz = self.filenames_xyz[seq][from_idx : to_idx + 1]
-        fut_filenames_intensity = self.filenames_intensity[seq][from_idx : to_idx + 1]
+        fut_filenames_range = self.filenames_range[seq][from_idx: to_idx + 1]
+        fut_filenames_xyz = self.filenames_xyz[seq][from_idx: to_idx + 1]
+        fut_filenames_intensity = self.filenames_intensity[seq][from_idx: to_idx + 1]
 
         for t in range(self.n_future_steps):
             fut_data[0, t, :, :] = self.load_range(fut_filenames_range[t])
@@ -238,20 +239,28 @@ class KittiOdometryRaw(Dataset):
         return intensity
 
 
+WS_ROOT = "/home/mcokelek21/Workstation"
+# WS_ROOT = "/home/mertcokelek"
+
 if __name__ == "__main__":
-    config_filename = "./config/parameters.yml"
+    import os
+    config_filename = f"{WS_ROOT}/home/mertcokelek/Desktop/Github/point-cloud-prediction/config/parameters.yml"
+    config_filename = "/home/mertcokelek/Desktop/Github/point-cloud-prediction/config/parameters.yml"
     cfg = yaml.safe_load(open(config_filename))
     data = KittiOdometryModule(cfg)
     data.prepare_data()
+    exit(0)
     data.setup()
 
     item = data.valid_loader.dataset.__getitem__(0)
+
 
     def normalize(image):
         min = np.min(image)
         max = np.max(image)
         normalized_image = (image - min) / (max - min)
         return normalized_image
+
 
     import matplotlib.pyplot as plt
 

@@ -2,9 +2,12 @@ EXPERIMENT:
   ID: pcf # Give your experiment a unique ID which is used in the log
 
 DATA_CONFIG:
+  WS_ROOT: /home/mcokelek21/Workstation
+  PCF_DATA_RAW: /media/mertcokelek/Local2TB/KITTI_odometry/dataset/sequences
+  PCF_DATA_PROCESSED: /home/mertcokelek/Desktop/KITTI_odometry/dataset/sequences/
   DATASET_NAME: KITTIOdometry
-  GENERATE_FILES: False # If true, the data will be pre-processed
-  COMPUTE_MEAN_AND_STD: False # If true, the mean and std of the training data will be computed to use it in MEAN and STD.
+  GENERATE_FILES: True # If true, the data will be pre-processed
+  COMPUTE_MEAN_AND_STD: True # If true, the mean and std of the training data will be computed to use it in MEAN and STD.
   DATALOADER:
     NUM_WORKER: 4
     SHUFFLE: True
@@ -12,7 +15,6 @@ DATA_CONFIG:
     TRAIN:
       - 0
       - 1
-      - 2
       - 3
       - 4
       - 5

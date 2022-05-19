@@ -15,17 +15,22 @@ def prepare_data(cfg):
         cfg (dict): Config
     """
     sequences = (
-        cfg["DATA_CONFIG"]["SPLIT"]["TRAIN"]
-        + cfg["DATA_CONFIG"]["SPLIT"]["VAL"]
-        + cfg["DATA_CONFIG"]["SPLIT"]["TEST"]
+            cfg["DATA_CONFIG"]["SPLIT"]["TRAIN"]
+            + cfg["DATA_CONFIG"]["SPLIT"]["VAL"]
+            + cfg["DATA_CONFIG"]["SPLIT"]["TEST"]
     )
 
+    ws_root = cfg["DATA_CONFIG"]["WS_ROOT"]
+    pcf_data_raw = cfg["DATA_CONFIG"]["PCF_DATA_RAW"]
+    pcf_data_processed = cfg["DATA_CONFIG"]["PCF_DATA_PROCESSED"]
+    # pcf_data_raw = f"{ws_root}{pcf_data_raw}"
+    # pcf_data_processed = f"{ws_root}{pcf_data_processed}"
+    pcf_data_raw = f"{pcf_data_raw}"
+    pcf_data_processed = f"{pcf_data_processed}"
     for seq in sequences:
         seqstr = "{0:02d}".format(int(seq))
-        scan_folder = os.path.join(os.environ.get("PCF_DATA_RAW"), seqstr, "velodyne")
-        dst_folder = os.path.join(
-            os.environ.get("PCF_DATA_PROCESSED"), seqstr, "processed"
-        )
+        scan_folder = os.path.join(pcf_data_raw, seqstr, "velodyne")
+        dst_folder = os.path.join(pcf_data_processed, seqstr, "processed")
         if not os.path.exists(dst_folder):
             os.makedirs(dst_folder)
 

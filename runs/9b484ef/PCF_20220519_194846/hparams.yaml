@@ -1,0 +1,97 @@
+DATA_CONFIG:
+  COMPUTE_MEAN_AND_STD: false
+  DATALOADER:
+    NUM_WORKER: 8
+    SHUFFLE: true
+  DATASET_NAME: KITTIOdometry
+  FOV_DOWN: -25.0
+  FOV_UP: 3.0
+  GENERATE_FILES: false
+  HEIGHT: 64
+  MAX_RANGE: 85.0
+  MEAN:
+  - 10.839
+  - 0.005
+  - 0.494
+  - -1.13
+  - 0.287
+  MIN_RANGE: 1.0
+  PCF_DATA_PROCESSED: /home/mertcokelek/Desktop/KITTI_odometry/dataset/sequences/
+  PCF_DATA_RAW: /media/mertcokelek/Local2TB/KITTI_odometry/dataset/sequences
+  SPLIT:
+    TEST:
+    - 8
+    - 9
+    - 10
+    TRAIN:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    VAL:
+    - 6
+    - 7
+  STD:
+  - 9.314
+  - 11.521
+  - 8.262
+  - 0.828
+  - 0.14
+  WIDTH: 2048
+  WS_ROOT: null
+EXPERIMENT:
+  ID: PCF
+GIT_COMMIT_VERSION: 9b484ef
+LOG_DIR: /home/mertcokelek/Desktop/Github/point-cloud-prediction/runs/9b484ef/PCF_20220519_194846
+LOG_NAME: PCF_20220519_194846
+MODEL:
+  CHANNELS:
+  - 16
+  - 32
+  - 64
+  - 128
+  - 256
+  - 512
+  CIRCULAR_PADDING: true
+  MASK_THRESHOLD: 0.5
+  NORM: batch
+  N_CHANNELS_PER_GROUP: 16
+  N_FUTURE_STEPS: 5
+  N_PAST_STEPS: 5
+  SKIP_IF_CHANNEL_SIZE:
+  - 32
+  - 64
+  - 128
+  - 256
+  TEMPORAL_KERNEL_SIZE:
+  - 2
+  - 2
+  - 2
+  - 2
+  - 1
+  USE:
+    INTENSITY: false
+    XYZ: false
+TEST:
+  N_BATCHES_TO_SAVE: -1
+  N_DOWNSAMPLED_POINTS_CD: -1
+  SAVE_POINT_CLOUDS: false
+TRAIN:
+  BATCH_ACC: 4
+  BATCH_SIZE: 24
+  LOG_EVERY_N_STEPS: 10
+  LOSS_WEIGHT_CHAMFER_DISTANCE: 0.0
+  LOSS_WEIGHT_MASK: 1.0
+  LOSS_WEIGHT_RANGE_VIEW: 1.0
+  LR: 0.001
+  LR_DECAY: 0.99
+  LR_EPOCH: 1
+  MAX_EPOCH: 50
+  N_GPUS: 1
+VALIDATION:
+  SELECTED_SEQUENCE_AND_FRAME:
+    6:
+    - 4
+    - 10

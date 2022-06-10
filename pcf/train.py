@@ -13,7 +13,7 @@ import subprocess
 from models.TCNet import TCNet
 from datasets.datasets import KittiOdometryModule
 
-
+path_root = "/home/mcokelek21"
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser("./train.py")
@@ -66,9 +66,9 @@ if __name__ == "__main__":
 
     model_path = args.resume if args.resume else args.weights
     if model_path:
-        ###### Load config and update parameters
-        checkpoint_path = "/home/mertcokelek/Desktop/Github/point-cloud-prediction/runs/" + model_path + "/checkpoints/last.ckpt"
-        config_filename = "/home/mertcokelek/Desktop/Github/point-cloud-prediction/runs/" + model_path + "/hparams.yaml"
+        # Load config and update parameters
+        checkpoint_path = f"{path_root}/Desktop/Github/point-cloud-prediction/runs/{model_path}/checkpoints/last.ckpt"
+        config_filename = f"{path_root}/Desktop/Github/point-cloud-prediction/runs/{model_path}/hparams.yaml"
         cfg = yaml.safe_load(open(config_filename))
 
         if args.weights and not args.comment:

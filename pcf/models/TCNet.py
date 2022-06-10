@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import yaml
 
-from pcf.models.base import BasePredictionModel
+from models.base import BasePredictionModel
 
 
 class CustomConv3d(nn.Module):

@@ -112,7 +112,8 @@ class KittiOdometryRaw(Dataset):
             Exception: [description]
         """
         self.cfg = cfg
-        self.root_dir = os.environ.get("PCF_DATA_PROCESSED")
+        # self.root_dir = os.environ.get("PCF_DATA_PROCESSED")
+        self.root_dir = self.cfg["DATA_CONFIG"]["PCF_DATA_PROCESSED"]
         self.height = self.cfg["DATA_CONFIG"]["HEIGHT"]
         self.width = self.cfg["DATA_CONFIG"]["WIDTH"]
         self.n_channels = 5

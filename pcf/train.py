@@ -10,10 +10,12 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
 import subprocess
 
-from pcf.datasets.datasets import KittiOdometryModule
-from pcf.models.TCNet import TCNet
+from models.TCNet import TCNet
+from datasets.datasets import KittiOdometryModule
+
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser("./train.py")
     parser.add_argument(
         "--comment", "-c", type=str, default="", help="Add a comment to the LOG ID."
@@ -65,8 +67,8 @@ if __name__ == "__main__":
     model_path = args.resume if args.resume else args.weights
     if model_path:
         ###### Load config and update parameters
-        checkpoint_path = "./pcf/runs/" + model_path + "/checkpoints/last.ckpt"
-        config_filename = "./pcf/runs/" + model_path + "/hparams.yaml"
+        checkpoint_path = "/home/mertcokelek/Desktop/Github/point-cloud-prediction/runs/" + model_path + "/checkpoints/last.ckpt"
+        config_filename = "/home/mertcokelek/Desktop/Github/point-cloud-prediction/runs/" + model_path + "/hparams.yaml"
         cfg = yaml.safe_load(open(config_filename))
 
         if args.weights and not args.comment:
@@ -98,7 +100,7 @@ if __name__ == "__main__":
     else:
         ###### Create new log
         resume_from_checkpoint = None
-        config_filename = "config/parameters.yml"
+        config_filename = "../config/parameters.yml"
         cfg = yaml.safe_load(open(config_filename))
         cfg["GIT_COMMIT_VERSION"] = str(
             subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).strip()
@@ -107,7 +109,7 @@ if __name__ == "__main__":
             cfg["EXPERIMENT"]["ID"] = args.comment
         cfg["LOG_NAME"] = cfg["EXPERIMENT"]["ID"] + "_" + time.strftime("%Y%m%d_%H%M%S")
         cfg["LOG_DIR"] = os.path.join(
-            "./pcf/runs", cfg["GIT_COMMIT_VERSION"], cfg["LOG_NAME"]
+            "/home/mertcokelek/Desktop/Github/point-cloud-prediction/runs", cfg["GIT_COMMIT_VERSION"], cfg["LOG_NAME"]
         )
         if not os.path.exists(cfg["LOG_DIR"]):
             os.makedirs(cfg["LOG_DIR"])
@@ -120,7 +122,6 @@ if __name__ == "__main__":
 
     ###### Dataset
     data = KittiOdometryModule(cfg)
-
     ###### Model
     model = TCNet(cfg)
 
@@ -132,8 +133,7 @@ if __name__ == "__main__":
         model = model.load_from_checkpoint(checkpoint_path, cfg=cfg)
         resume_from_checkpoint = None
         print("Loading weigths from ", checkpoint_path)
-
-    ###### Callbacks
+    # Callbacks
     lr_monitor = LearningRateMonitor(logging_interval="step")
     checkpoint = ModelCheckpoint(
         monitor="val/loss",
@@ -143,7 +143,7 @@ if __name__ == "__main__":
         save_last=True,
     )
 
-    ###### Trainer
+    # Trainer
     trainer = Trainer(
         gpus=cfg["TRAIN"]["N_GPUS"],
         logger=tb_logger,
@@ -155,6 +155,6 @@ if __name__ == "__main__":
         resume_from_checkpoint=resume_from_checkpoint,
         callbacks=[lr_monitor, checkpoint],
     )
-
-    ###### Training
+    print("Trainer ready to fit.")
+    # Training
     trainer.fit(model, data)

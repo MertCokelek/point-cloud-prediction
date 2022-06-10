@@ -2,10 +2,12 @@ import torch
 import torch.nn as nn
 import random
 
-from pcf.pyTorchChamferDistance.chamfer_distance import ChamferDistance
+# from pcf.pyTorchChamferDistance.chamfer_distance import ChamferDistance
+import sys
+sys.path.append("/home/mertcokelek/Desktop/Github/point-cloud-prediction")
 from pcf.utils.projection import projection
 
-
+from pcf.pyTorchChamferDistance.chamfer_distance import ChamferDistance
 class Loss(nn.Module):
     """Combined loss for point cloud prediction"""
 
